@@ -1,17 +1,3 @@
-sdfasdffsad
-asdf
-
-sadf
-asdf
-sdafa
-
-fdsa
-dfsa
-asfdasfdfsaASDFSADFSDAF
-dsaf
-sadf
-
-fa
-sdafasdf
-
-fdsa
+InOrden: ABCDEFLMOPQRS
+PreOrden: FDABCEPMLORQS
+PostOrden: CBAEDLOMQSRPF

@@ -8,6 +8,8 @@ const char FICHERO_NIVEL_S[] = "nivelS.txt";
 const char FICHERO_PESOS[] = "pesos.txt";
 const char FICHERO_PESOS_S[] = "pesosS.txt";
 extern char *texto2[];
+extern Arbol ArbolInt;
+FILE *fd;
 char *nombre_fich1[];
 char *nombre_fich2[];
 
@@ -19,7 +21,7 @@ int error_msg(char *nombre_fichero)
 	return FALLO;
 }
 
-int leerArchivo(int opcion){
+/*int leerArchivo(int opcion){
 	FILE *ptr_fich1, *ptr_fich2;
 	if (opcion == 1){
 		*nombre_fich2 = FICHERO_ARBOL;
@@ -53,7 +55,10 @@ int leerArchivo(int opcion){
           resultado = error_msg(*nombre_fich1);
           break;
       	}
-        //printf("%s.",buffer);
+        //printf("%s.",buffer););););
+
+
+
       } //end of while
       printf("%s", buffer);
       //*texto = buffer;
@@ -69,4 +74,34 @@ int leerArchivo(int opcion){
     }
   }
   return resultado;
+}*/
+
+
+void leerArchivo(int opcion){
+	if (opcion == 1){
+		*nombre_fich2 = FICHERO_ARBOL;
+		*nombre_fich1 = FICHERO_RECORRIDO;
+	} else if (opcion == 2){
+		*nombre_fich2 = FICHERO_ELIMINAR;
+		*nombre_fich1 = FICHERO_RECORRIDO_E;
+	} else if (opcion == 3){
+		*nombre_fich2 = FICHERO_NIVEL;
+		*nombre_fich1 = FICHERO_NIVEL_S;
+	} else {
+		*nombre_fich2 = FICHERO_PESOS;
+		*nombre_fich1 = FICHERO_PESOS_S;
+	}
+    int c;
+    fd = fopen(*nombre_fich1, "r");
+    if(fd == NULL){
+        printf("No se ha podido leer el archivo");
+    } else {
+	    while((c = fgetc(fd)) != EOF) {
+	        if(c == '\n'){
+	            printf("\n");
+	        } else {
+	            Insertar(&ArbolInt, c);
+	        }
+	    }
+	}
 }

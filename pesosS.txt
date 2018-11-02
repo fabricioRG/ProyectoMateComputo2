@@ -1,0 +1,3 @@
+Para F: izquierdo 4 - derecho 6
+Para P: izquierdo 2 - derecho 3
+Para L: izquierdo 0 - derecho 0

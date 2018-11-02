@@ -1,12 +1,23 @@
-#include "HeaderValues.h"
-#include "HeaderFicheros.h"
+//#include "HeaderValues.h"
+//#include "HeaderFicheros.h"
 #include <stdlib.h>
 #include <stdio.h>
-extern int A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z;
-extern int A_LOW, B_LOW, C_LOW, D_LOW, E_LOW, F_LOW, G_LOW, H_LOW, I_LOW, J_LOW, K_LOW, L_LOW, M_LOW, N_LOW, 
-        O_LOW, P_LOW, Q_LOW, R_LOW, S_LOW, T_LOW, U_LOW, V_LOW, W_LOW, X_LOW, Y_LOW, Z_LOW;
+const char FICHERO_ARBOL[] = "arbol.txt";
+const char FICHERO_RECORRIDO[] = "recorrido.txt";
+const char FICHERO_ELIMINAR[] = "eliminar.txt";
+const char FICHERO_RECORRIDO_E[] = "recorridoE.txt";
+const char FICHERO_NIVEL[] = "nivel.txt";
+const char FICHERO_NIVEL_S[] = "nivelS.txt";
+const char FICHERO_PESOS[] = "pesos.txt";
+const char FICHERO_PESOS_S[] = "pesosS.txt";
+const char TEXTO_IN_ORDEN[] = "InOrden: ";
+const char TEXTO_PRE_ORDEN[] = "PreOrden: ";
+const char TEXTO_POST_ORDEN[] = "PostOrden: ";
 #define TRUE 1
 #define FALSE 0
+FILE *fd;
+char *nombre_fich1[];
+char *nombre_fich2[];
 
 /* Estructuras y tipos */
 typedef struct _nodo {
@@ -18,6 +29,8 @@ typedef struct _nodo {
 typedef tipoNodo *pNodo;
 typedef tipoNodo *Arbol;
 
+Arbol ArbolInt=NULL;
+
 /* Funciones con árboles: */
 /* Insertar en árbol ordenado: */
 void Insertar(Arbol *a, int dat);
@@ -25,105 +38,57 @@ void Insertar(Arbol *a, int dat);
 void Borrar(Arbol *a, int dat);
 /* Función de búsqueda: */
 int Buscar(Arbol a, int dat);
+Arbol ObtenerArbol(Arbol a, int dat);
 /* Comprobar si el árbol está vacío: */
 int Vacio(Arbol r);
 /* Comprobar si es un nodo hoja: */
 int EsHoja(pNodo r);
 /* Contar número de nodos: */
-int NumeroNodos(Arbol a, int* c);
-/* Calcular la altura de un árbol: */
-int AlturaArbol(Arbol a, int* altura);
+void NumeroNodos(Arbol a, int *contIzq, int *contDer, int dato);
 /* Calcular altura de un dato: */
 int Altura(Arbol a, int dat);
 /* Aplicar una función a cada elemento del árbol: */
-void InOrden(Arbol, void (*func)(int*));
-void PreOrden(Arbol, void (*func)(int*));
-void PostOrden(Arbol, void (*func)(int*));
+void InOrden(Arbol a);
+void PreOrden(Arbol a);
+void PostOrden(Arbol a);
 
 /* Funciones auxiliares: */
 void Podar(Arbol *a);
-void auxContador(Arbol a, int*);
+void auxContador(Arbol nodo, int *c);
 void auxAltura(Arbol a, int, int*);
 
 void Mostrar(int *d);
 
-/* Programa de ejemplo */
+/*Funcion encargada de leer el archivo de entrada*/
+void leerArchivo(int opcion);
+/*Funcion que recibe como parametro un numero para imprimir su caracter*/
+void imprimirDato(int dato);
+/*Metodo encargado de imprimir los tres recorridos*/
+void imprimirRecorridos();
+/*Funcion encargada de imprimir el nivel en un archivo*/
+void imprimirNivel(int dato);
+/*Funcion encargada de imprimir el peso en un archivo*/
+void imprimirPeso(int dato, int *c1, int *c2);
+
+/*Funcion principal*/
 int main()
 {
-   Arbol ArbolInt=NULL;
    int altura;
-   int nnodos;
-
    /* Inserción de nodos en árbol: */
-   Insertar(&ArbolInt, A);
-   Insertar(&ArbolInt, B);
-   Insertar(&ArbolInt, C);
-   Insertar(&ArbolInt, D);
-   Insertar(&ArbolInt, E);
-   Insertar(&ArbolInt, F);
-   Insertar(&ArbolInt, G);
-   Insertar(&ArbolInt, H);
-   Insertar(&ArbolInt, I);
-   Insertar(&ArbolInt, 11);
-   Insertar(&ArbolInt, 14);
-   Insertar(&ArbolInt, 13);
-   Insertar(&ArbolInt, 2);
-   Insertar(&ArbolInt, 1);
-   Insertar(&ArbolInt, 15);
-   Insertar(&ArbolInt, 10);
-   Insertar(&ArbolInt, 17);
-   Insertar(&ArbolInt, 18);
-   Insertar(&ArbolInt, 16);
+   leerArchivo(1);
+   imprimirRecorridos();
 
-   printf("Altura de arbol %d\n", AlturaArbol(ArbolInt, &altura));
+   leerArchivo(2);
+   imprimirRecorridos();   
 
-   /* Mostrar el árbol en tres ordenes distintos: */
-   printf("InOrden: ");
-   InOrden(ArbolInt, Mostrar);
-   printf("\n");
-   printf("PreOrden: ");
-   PreOrden(ArbolInt, Mostrar);
-   printf("\n");
-   printf("PostOrden: ");
-   PostOrden(ArbolInt, Mostrar);
-   printf("\n");
+   leerArchivo(3);
 
-   /* Borraremos algunos elementos: */
-   printf("N nodos: %d\n", NumeroNodos(ArbolInt, &nnodos));
-   Borrar(&ArbolInt, 5);
-   printf("Borrar 5: ");
-   InOrden(ArbolInt, Mostrar);
-   printf("\n");
-   Borrar(&ArbolInt, 8);
-   printf("Borrar 8: ");
-   InOrden(ArbolInt, Mostrar);
-   printf("\n");
-   Borrar(&ArbolInt, 15);
-   printf("Borrar 15: ");
-   InOrden(ArbolInt, Mostrar);
-   printf("\n");
-   Borrar(&ArbolInt, 245);
-   printf("Borrar 245: ");
-   InOrden(ArbolInt, Mostrar);
-   printf("\n");
-   Borrar(&ArbolInt, 4);
-   printf("Borrar 4: ");
-   InOrden(ArbolInt, Mostrar);
-   printf("\n");
-   Borrar(&ArbolInt, 17);
-   printf("Borrar 17: ");
-   InOrden(ArbolInt, Mostrar);
-   printf("\n");
+   leerArchivo(4);
 
-   /* Veamos algunos parámetros */
-   printf("N nodos: %d\n", NumeroNodos(ArbolInt, &nnodos));
-   printf("Altura de 1 %d\n", Altura(ArbolInt, 1));
-   printf("Altura de 10 %d\n", Altura(ArbolInt, 10));
-   printf("Altura de arbol %d\n", AlturaArbol(ArbolInt, &altura));
-
+   printf("===============> Proceso Terminado <===============\n");
    /* Liberar memoria asociada al árbol: */
    Podar(&ArbolInt);
-   return leerArchivo(1);
+   return 0;
 }
 
 /* Poda: borrar todos los nodos a partir de uno, incluido */
@@ -239,33 +204,36 @@ void Borrar(Arbol *a, int dat)
    el prototipo:
    void func(int*);
 */
-void InOrden(Arbol a, void (*func)(int*))
+void InOrden(Arbol a)
 {
-   if(a->izquierdo) InOrden(a->izquierdo, func);
-   func(&(a->dato));
-   if(a->derecho) InOrden(a->derecho, func);
+   if(a->izquierdo) InOrden(a->izquierdo);
+   //func(&(a->dato));
+   imprimirDato(a->dato);
+   if(a->derecho) InOrden(a->derecho);
 }
 
 /* Recorrido de árbol en preorden, aplicamos la función func, que tiene
    el prototipo:
    void func(int*);
 */
-void PreOrden(Arbol a, void (*func)(int*))
+void PreOrden(Arbol a)
 {
-   func(&a->dato);
-   if(a->izquierdo) PreOrden(a->izquierdo, func);
-   if(a->derecho) PreOrden(a->derecho, func);
+   //func(&a->dato);
+   imprimirDato(a->dato);
+   if(a->izquierdo) PreOrden(a->izquierdo);
+   if(a->derecho) PreOrden(a->derecho);
 }
 
 /* Recorrido de árbol en postorden, aplicamos la función func, que tiene
    el prototipo:
    void func(int*);
 */
-void PostOrden(Arbol a, void (*func)(int*))
+void PostOrden(Arbol a)
 {
-   if(a->izquierdo) PostOrden(a->izquierdo, func);
-   if(a->derecho) PostOrden(a->derecho, func);
-   func(&a->dato);
+   if(a->izquierdo) PostOrden(a->izquierdo);
+   if(a->derecho) PostOrden(a->derecho);
+   //func(&a->dato);
+   imprimirDato(a->dato);
 }
 
 /* Buscar un valor en el árbol */
@@ -282,10 +250,24 @@ int Buscar(Arbol a, int dat)
    return FALSE; /* No está en árbol */
 }
 
+/*Obtener el arbol segun un valor dado*/
+Arbol ObtenerArbol(Arbol a, int dat)
+{
+   Arbol actual = a;
+
+   /* Todavía puede aparecer, ya que quedan nodos por mirar */
+   while(!Vacio(actual)) {
+      if(dat == actual->dato) return actual; /* dato encontrado */
+      else if(dat < actual->dato) actual = actual->izquierdo; /* Seguir */
+      else if(dat > actual->dato) actual = actual->derecho;
+   }
+   return actual; /* No está en árbol */
+}
+
 /* Calcular la altura del nodo que contiene el dato dat */
 int Altura(Arbol a, int dat)
 {
-   int altura = 0;
+   int altura = 1;
    pNodo actual = a;
 
    /* Todavía puede aparecer, ya que quedan nodos por mirar */
@@ -301,31 +283,34 @@ int Altura(Arbol a, int dat)
 }
 
 /* Contar el número de nodos */
-int NumeroNodos(Arbol a, int *contador)
+void NumeroNodos(Arbol a, int *contIzq, int *contDer, int dato)
 {
-   *contador = 0;
-
-   auxContador(a, contador); /* Función auxiliar */
-   return *contador;
+   *contIzq = 0;
+   *contDer = 0;
+   Arbol nodo = ObtenerArbol(ArbolInt, dato);
+   if(nodo->izquierdo){
+      (*contIzq)++;
+      auxContador(nodo->izquierdo, contIzq);
+   } /* Función auxiliar */
+   if(nodo->derecho){
+      (*contDer)++;
+      auxContador(nodo->derecho, contDer);
+   }  
+   imprimirPeso(dato, contIzq, contDer);
 }
 
 /* Función auxiliar para contar nodos. Función recursiva de recorrido en
    preorden, el proceso es aumentar el contador */
 void auxContador(Arbol nodo, int *c)
 {
-   (*c)++; /* Otro nodo */
-   /* Continuar recorrido */
-   if(nodo->izquierdo) auxContador(nodo->izquierdo, c);
-   if(nodo->derecho)   auxContador(nodo->derecho, c);
-}
-
-/* Calcular la altura del árbol, que es la altura del nodo de mayor altura. */
-int AlturaArbol(Arbol a, int *altura)
-{
-   *altura = 0;
-
-   auxAltura(a, 0, altura); /* Función auxiliar */
-   return *altura;
+   if(nodo->izquierdo){
+      (*c)++;
+      auxContador(nodo->izquierdo, c);
+   } 
+   if(nodo->derecho){
+      (*c)++;
+      auxContador(nodo->derecho, c);
+   }
 }
 
 /* Función auxiliar para calcular altura. Función recursiva de recorrido en
@@ -359,3 +344,101 @@ void Mostrar(int *d)
    printf("%d, ", *d);
 }
 
+/*Leer un archivo dependiendo de texto ya creado, si este no existe se notifica
+al usuario*/
+void leerArchivo(int opcion){
+   int nnodosIzq;
+   int nnodosDer;
+   if (opcion == 1){
+      *nombre_fich2 = FICHERO_ARBOL;
+      *nombre_fich1 = FICHERO_RECORRIDO;
+   } else if (opcion == 2){
+      *nombre_fich2 = FICHERO_ELIMINAR;
+      *nombre_fich1 = FICHERO_RECORRIDO_E;
+   } else if (opcion == 3){
+      *nombre_fich2 = FICHERO_NIVEL;
+      *nombre_fich1 = FICHERO_NIVEL_S;
+      FILE *fp;
+      fp = fopen(*nombre_fich1, "w+");
+      fclose(fp);
+   } else {
+      *nombre_fich2 = FICHERO_PESOS;
+      *nombre_fich1 = FICHERO_PESOS_S;
+      FILE *fp;
+      fp = fopen(*nombre_fich1, "w+");
+      fclose(fp);
+   }
+    int c;
+    fd = fopen(*nombre_fich2, "r");
+    if(fd == NULL){
+        printf("====== No se ha encontrado el archivo '%s' ======\n", *nombre_fich2);
+    } else {
+       while((c = fgetc(fd)) != EOF) {
+           if(c == '\n'){
+               //printf("\n");
+           } else {
+               if(opcion == 1){
+                  Insertar(&ArbolInt, c);
+               } else if (opcion == 2){
+                  if(Buscar(ArbolInt, c) == 1){
+                     Borrar(&ArbolInt, c);
+                  } else {
+                     printf("No se ha encontrado '%c'\n", c);
+                  }
+                  
+               } else if (opcion == 3){
+                  if(Buscar(ArbolInt, c) == 1){
+                  imprimirNivel(Altura(ArbolInt, c));
+                  } else {
+                     printf("No se ha encontrado '%c'\n", c);
+                  }
+               } else if (opcion == 4){
+                  if(Buscar(ArbolInt, c) == 1){
+                     NumeroNodos(ArbolInt, &nnodosIzq, &nnodosDer, c);
+                  } else {
+                     printf("No se ha encontrado '%c'\n", c);
+                  }
+               }
+           }
+       }
+   }
+}
+
+void imprimirDato(int dato){
+   FILE *fp;
+   fp = fopen(*nombre_fich1, "a+t");
+   fputc(dato, fp);
+   fclose(fp);
+}
+
+void imprimirRecorridos(){
+   FILE *fp;
+   fp = fopen(*nombre_fich1, "w+");
+   fputs( TEXTO_IN_ORDEN, fp );
+   fclose(fp);
+   InOrden(ArbolInt);
+   fp = fopen(*nombre_fich1, "a+t");
+   fputs( "\n", fp );
+   fputs( TEXTO_PRE_ORDEN, fp );
+   fclose(fp);
+   PreOrden(ArbolInt);
+   fp = fopen(*nombre_fich1, "a+t");
+   fputs( "\n", fp );
+   fputs( TEXTO_POST_ORDEN, fp );
+   fclose(fp);
+   PostOrden(ArbolInt);
+}
+
+void imprimirNivel(int dato){
+   FILE *fp;
+   fp = fopen(*nombre_fich1, "a+t");
+   fprintf(fp, "%d,", dato);
+   fclose(fp);
+}
+
+void imprimirPeso(int dato, int *c1, int *c2){
+   FILE *fp;
+   fp = fopen(*nombre_fich1, "a+t");
+   fprintf(fp, "Para %c: izquierdo %d - derecho %d\n", dato, *c1, *c2);
+   fclose(fp);
+}
