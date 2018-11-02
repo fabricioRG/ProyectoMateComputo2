@@ -1,0 +1,56 @@
+const int A = 65;
+const int B = 66;
+const int C = 67;
+const int D = 68;
+const int E = 69;
+const int F = 70;
+const int G = 71;
+const int H = 72;
+const int I = 73;
+const int J = 74;
+const int K = 75;
+const int L = 76;
+const int M = 77;
+const int N = 78;
+const int O = 79;
+const int P = 80;
+const int Q = 81;
+const int R = 82;
+const int S = 83;
+const int T = 84;
+const int U = 85;
+const int V = 86;
+const int W = 87;
+const int X = 88;
+const int Y = 89;
+const int Z = 90;
+const int A_LOW = 97;
+const int B_LOW = 98;
+const int C_LOW = 99;
+const int D_LOW = 100;
+const int E_LOW = 101;
+const int F_LOW = 102;
+const int G_LOW = 103;
+const int H_LOW = 104;
+const int I_LOW = 105;
+const int J_LOW = 106;
+const int K_LOW = 107;
+const int L_LOW = 108;
+const int M_LOW = 109;
+const int N_LOW = 110;
+const int O_LOW = 111;
+const int P_LOW = 112;
+const int Q_LOW = 113;
+const int R_LOW = 114;
+const int S_LOW = 115;
+const int T_LOW = 116;
+const int U_LOW = 117;
+const int V_LOW = 118;
+const int W_LOW = 119;
+const int X_LOW = 120;
+const int Y_LOW = 121;
+const int Z_LOW = 122;
+
+char getValorNumerico(int valor){
+	
+}
