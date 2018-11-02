@@ -1,3 +1,1 @@
-InOrden: ABCDEFLMOPQRS
-PreOrden: FDABCEPMLORQS
-PostOrden: CBAEDLOMQSRPF
+InOrden: 

@@ -344,7 +344,7 @@ void Mostrar(int *d)
    printf("%d, ", *d);
 }
 
-/*Leer un archivo dependiendo de texto ya creado, si este no existe se notifica
+/*Leer un archivo dependiendo de un archivo de texto ya creado, si este no existe se notifica
 al usuario*/
 void leerArchivo(int opcion){
    int nnodosIzq;
@@ -372,6 +372,10 @@ void leerArchivo(int opcion){
     fd = fopen(*nombre_fich2, "r");
     if(fd == NULL){
         printf("====== No se ha encontrado el archivo '%s' ======\n", *nombre_fich2);
+        if(*nombre_fich2 == FICHERO_ARBOL){ //Si el archivo es arbol.txt se sale del programa pues dependemos del mismo
+            printf("== Es necesario el archivo '%s' para continuar ==\nSaliendo del programa...\n", FICHERO_ARBOL);
+            exit(0);
+        }
     } else {
        while((c = fgetc(fd)) != EOF) {
            if(c == '\n'){
@@ -404,13 +408,14 @@ void leerArchivo(int opcion){
    }
 }
 
+/*Imprmir los datos de PreOrden, InOrden y PostOrden */
 void imprimirDato(int dato){
    FILE *fp;
    fp = fopen(*nombre_fich1, "a+t");
    fputc(dato, fp);
    fclose(fp);
 }
-
+/*Si no existe el archivo de recorrido.txt entonces se crea, de lo contrario unicamente se limpia*/
 void imprimirRecorridos(){
    FILE *fp;
    fp = fopen(*nombre_fich1, "w+");
@@ -429,6 +434,7 @@ void imprimirRecorridos(){
    PostOrden(ArbolInt);
 }
 
+/*Imprime en un archivo de texto el nivel en el que se encuentra un nodo*/
 void imprimirNivel(int dato){
    FILE *fp;
    fp = fopen(*nombre_fich1, "a+t");
@@ -436,6 +442,7 @@ void imprimirNivel(int dato){
    fclose(fp);
 }
 
+/*Imrime en un archivo de texto el peso que tiene un nodo*/
 void imprimirPeso(int dato, int *c1, int *c2){
    FILE *fp;
    fp = fopen(*nombre_fich1, "a+t");
